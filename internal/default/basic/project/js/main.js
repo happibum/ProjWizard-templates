@@ -56,7 +56,7 @@ function appendDownloadFiles(entries) {
     dirContent.empty();
     for (var i = 0; i < entries.length; i++) {
         var entry = entries[i];
-        if (entry.isFile) {
+        if (entry.isFile && /.mp3$/.test(entry.name)) {
             dirContent.append('<a href="javascript:void(0);" class="list-group-item" onClick="playFile(this)">' + entry.name + '</a>');
         }
     }
