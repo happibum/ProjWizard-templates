@@ -50,11 +50,11 @@
           <p>Provides access to the device's default camera application. <button onClick="getPhoto(navigator.camera.PictureSourceType.PHOTOLIBRARY);">Get Photo</button></p>
         </div>
         <div class="col-md-6">
-          <h2>File & Media</h2>
-          <p>Place a mp3 file into 'Download' folder and click. <button onClick="listFiles();">Play MP3</button><button onClick="stop();">Stop</button></p>
+          <img style="display: none; width: 240px; height: 240px;" id="cameraImage" src="" alt="cameraImage" />
         </div>
         <div class="col-md-6">
-          <img style="display: none; width: 240px; height: 240px;" id="cameraImage" src="" alt="cameraImage" />
+          <h2>File & Media</h2>
+          <p>Place a mp3 file into 'Download' folder and click. <button onClick="listFiles();">Play MP3</button><button onClick="stop();">Stop</button></p>
         </div>
         <div class="col-md-6">
           <ul class="list-group" id="dirContent">
