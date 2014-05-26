@@ -5,6 +5,7 @@ var media = null;
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
+    console.log('deviceready');
     if (media !== null)
         media.release();
 }
@@ -14,9 +15,10 @@ function getFileSystem() {
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
         function (fileSystem) {
             root = fileSystem.root;
+            console.log('fileSystem: ' + root);
             listDownloadDir(root);
         }, function (err) {
-            alert('Failed to get a file system: ' + err.code);
+            console.error('Failed to get a file system: ' + err.code);
         }
     );
 }
@@ -31,18 +33,19 @@ function listDownloadDir(directoryEntry) {
             for (var i = 0; i < entries.length; i++) {
                 var entry = entries[i];
                 if (defaultDir === entry.name) {
+                    console.log('Reading \'' + defaultDir + '\' directory...');
                     var downloadReader = entry.createReader();
                     downloadReader.readEntries(
                         appendDownloadFiles,
                         function (err) {
-                            alert('Failed to read \'Download\' entries: ' + err.code);
+                            console.error('Failed to read \'Download\' entries: ' + err.code);
                         }
                     );
                     break;
                 }
             }
         }, function (err) {
-            alert('Failed to read entries: ' + err.code);
+            console.error('Failed to read entries: ' + err.code);
         }
     );
 }
@@ -57,35 +60,40 @@ function appendDownloadFiles(entries) {
     for (var i = 0; i < entries.length; i++) {
         var entry = entries[i];
         if (entry.isFile && /.mp3$/.test(entry.name)) {
+            console.debug('Found mp3 file: ' + entry.name);
             dirContent.append('<a href="javascript:void(0);" class="list-group-item" onClick="playFile(this)">' + entry.name + '</a>');
         }
     }
 }
 
 function stop() {
+    console.log('Stopping media...');
     if (media !== null) {
         media.stop();
         media.release();
     }
 }
 
-function playFile(e) {
-    var file = $(e).text();
+function playFile(elem) {
+    var file = $(elem).text();
+    console.log('Playing a file \'' + file + '\'...');
     media = new Media(defaultDir + '/' + file,
         function () { console.log("playAudio():Audio Success"); },
-        function (err) { alert("playAudio():Audio Error: " + err.code); }
+        function (err) { console.error("playAudio():Audio Error: " + err.code); }
     );
     media.play();
 }
 
 function vibrate() {
+    console.log('vibrate');
     // Vibrate for 3 seconds
     navigator.notification.vibrate(3000);
 }
 
 function getPhoto(source) {
+    console.log('getPhoto: ' + source);
     // Retrieve image file location from specified source
-    navigator.camera.getPicture(onPhotoURISuccess, onFail, {
+    navigator.camera.getPicture(onPhotoURISuccess, onPhotoFail, {
         quality: 50,
         destinationType: navigator.camera.DestinationType.FILE_URI,
         sourceType: source
@@ -98,6 +106,6 @@ function onPhotoURISuccess(imageURI) {
     cameraImage.src = imageURI;
 }
 
-function onFail(message) {
-    alert('Failed: ' + message);
+function onPhotoFail(message) {
+    console.error('Failed to get a photo: ' + message);
 }
