@@ -15,7 +15,7 @@ function getFileSystem() {
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
         function (fileSystem) {
             root = fileSystem.root;
-            console.log('fileSystem: ' + root);
+            console.log('fileSystem: ' + root.toURL());
             listDownloadDir(root);
         }, function (err) {
             console.error('Failed to get a file system: ' + err.code);
