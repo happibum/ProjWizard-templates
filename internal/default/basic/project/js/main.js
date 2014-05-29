@@ -102,8 +102,10 @@ function getPhoto(source) {
 
 function onPhotoURISuccess(imageURI) {
     var cameraImage = document.getElementById('cameraImage');
-    cameraImage.style.display = 'block';
-    cameraImage.src = imageURI;
+    var $img = $('<img>');
+    $img.attr('src', imageURI);
+    $img.width('200px');
+    $(cameraImage).append($img);
 }
 
 function onPhotoFail(message) {
