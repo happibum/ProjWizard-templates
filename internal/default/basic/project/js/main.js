@@ -90,24 +90,24 @@ function vibrate() {
     navigator.notification.vibrate(3000);
 }
 
-function getPhoto(source) {
-    console.log('getPhoto: ' + source);
-    // Retrieve image file location from specified source
-    navigator.camera.getPicture(onPhotoURISuccess, onPhotoFail, {
+
+function getPhoto() {
+    console.log('getPhoto');
+    navigator.camera.getPicture(onCameraSuccess, onFail, {
         quality: 50,
-        destinationType: navigator.camera.DestinationType.FILE_URI,
-        sourceType: source
+        destinationType: Camera.DestinationType.DATA_URL,
+        sourceType: Camera.PictureSourceType.PHOTOLIBRARY
     });
 }
 
-function onPhotoURISuccess(imageURI) {
-    var cameraImage = document.getElementById('cameraImage');
+function onCameraSuccess(imageData) {
+    var div = document.getElementById('img1');
     var $img = $('<img>');
-    $img.attr('src', imageURI);
+    $img.attr('src', 'data:image/jpeg;base64,' + imageData);
     $img.width('200px');
-    $(cameraImage).append($img);
+    $(div).empty().append($img);
 }
 
-function onPhotoFail(message) {
-    console.error('Failed to get a photo: ' + message);
+function onFail(message) {
+    console.error('Failed because: ' + message);
 }
