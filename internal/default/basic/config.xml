@@ -3,6 +3,7 @@
     <name><%= app.name %></name>
     <description>Cordova Application</description>
     <author href="http://webida.org">Webida.org</author>
+    <icon src="res/icon.png"/>
     <access origin="*"/>
     <preference name="fullscreen" value="true"/>
     <preference name="webviewbounce" value="true"/>
